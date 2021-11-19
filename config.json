@@ -1,0 +1,10 @@
+{
+    "configVersion": "1.0.0",
+    "configPath": "./config.json",
+    "configFor": "index.js",
+    "configProject": "Image Uploader",
+    "settings": {
+        "port": "5858",
+        "host": "http://localhost:5858/"
+    }
+}
