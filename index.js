@@ -13,7 +13,9 @@ require('dotenv').config();
 const admin_key = process.env.ADMIN;
 const now = Date.now();
 const timezone = require('moment-timezone');
-const curdate = timezone.tz(now, 'Europe/Prague').format('DD.MM.YYYY HH:MM:SS');
+const curdate = timezone.tz(now, 'Europe/Prague').format('DD.MM.YYYY HH:mm:SS');
+const auser = process.env['user'];
+const apass = process.env['pass'];
 
 //*midleware
 app.use(fu({
@@ -23,6 +25,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+app.set('view engine', 'ejs');
 
 //*Functions
 const generateFolder = () => {
@@ -39,7 +42,7 @@ const generateFolder = () => {
 
 //*requests
 app.post('/upload', async (req, res) => {
-    try {
+try {
         if (!req.files) {
             res.format({
                 'text/plain': function () {
@@ -76,13 +79,14 @@ app.post('/upload', async (req, res) => {
                 sizeKB: file.size / 1000 + " KB",
                 type: file.mimeType,
                 uploaded: curdate,
-                generatedFolder: gen_folder
+                generatedFolder: gen_folder,
+                type: file.mimetype
             };
 
             file.mv(__dirname+"/uploads/files/"+gen_folder+"___"+file.name);
             fs.writeFileSync(__dirname+"/uploads/jsons/"+gen_folder+"___"+file.name+".json", JSON.stringify(file_info));
 
-            res.json({url: host+gen_folder+"/"+file.name});
+            res.json({url: host+gen_folder+"/"+file.name, embed: host+"e/"+gen_folder+"/"+file.name});
             console.log("New File Uploaded at "+curdate);
             console.log("========================================================");
             console.log("'"+host+gen_folder+"/"+file.name+"' || '"+gen_folder+"___"+file.name+"'");
@@ -94,6 +98,7 @@ app.post('/upload', async (req, res) => {
         });
         console.log(err);
     };
+
 });
 app.get("/:folder/:file", async (req, res) => {
   try {
@@ -109,8 +114,57 @@ app.get("/:folder/:file", async (req, res) => {
     console.log(err); 
   }
 });
+app.get("/e/:folder/:file", async(req, res) => {
+  try {
+    var folder = req.params.folder;
+    var name = req.params.file;
+    var imgurl = host+folder+"/"+name;
+    var filecheck = fs.readFileSync(__dirname+"/uploads/jsons/"+folder+"___"+name+".json");
+    var file_info = JSON.parse(fs.readFileSync(__dirname+`/uploads/jsons/${folder}___${name}.json`));
+    if (!filecheck) res.status(404).json({code:404, title: "Not Found"});
+    if (folder !== file_info.generatedFolder) res.status(404).json({code:404, title: "Not Found"});
+    if (file_info.type === "image/jpeg") {
+      res.render(__dirname+"/embed.ejs", {
+        name: file_info.name,
+        size: file_info.sizeKB,
+        uDate: file_info.uploaded,
+        path: file_info.generatedFolder+"/"+file_info.name,
+        url: imgurl,
+        type: file_info.type
+      });
+    } else if (file_info.type === "image/jpg") {
+      res.render(__dirname+"/embed.ejs", {
+        name: file_info.name,
+        size: file_info.sizeKB,
+        uDate: file_info.uploaded,
+        path: file_info.generatedFolder+"/"+file_info.name,
+        url: imgurl,
+        type: file_info.type
+      });
+     } else if (file_info.type === "image/png") {
+      res.render(__dirname+"/embed.ejs", {
+        name: file_info.name,
+        size: file_info.sizeKB,
+        uDate: file_info.uploaded,
+        path: file_info.generatedFolder+"/"+file_info.name,
+        url: imgurl,
+        type: file_info.type
+      });
+     } else {
+      res.redirect(host+folder+"/"+name).end();
+    }
+  } catch (err) {
+    res.status(404).json({code:404, title: "Not Found"});
+    console.log(err); 
+  }
+});
 app.get("*", async (req, res) => {
-  res.status(404).json({code:404, title: "Not Found"});
+  if (req.query.upload === "show") {
+    res.status(200).sendFile(__dirname+"/upload.html");
+  } else {
+    res.status(200).send("<style>body {display: flex;justify-content:center;align-items:center;} h1::hover {font-size:200%;transition:0.2s;}</style><body><h1>"+host+"upload</h1></body>");
+  }
+  
 });
 
 app.listen(port, () => {

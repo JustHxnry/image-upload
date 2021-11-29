@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: #000000">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= name %> (<%= size %>) - f.hxnrycz.xyz</title>
+    <meta property="al:android:url" content="<%= url %>" />
+    <meta property="al:android:app_name" content="<%= name %> [ <%= size %> ]" />
+    <meta property="al:android:package" content="com.img.mobile" />
+    <meta property="al:ios:url" content="<%= url %>" />
+    <meta property="al:ios:app_name" content="<%= name %> [ <%= size %> ]" />
+    <meta property="al:web:url" content="<%= url %>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="Uploaded at <%= uDate %>" />
+    <meta property="og:image" content="<%= url %>" />
+    <meta name="theme-color" content="#000">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="<%= name %> [ <%= size %> ]" />
+    <meta name="twitter:description" content="Uploaded at <%= uDate %>" />
+    <meta name="twitter:image:src" content="<%= url %>" />
+    <meta name="twitter:image:height" content="630" />
+    <meta name="twitter:image:width" content="1200" />
+</head>
+    <body><br><br><br><br><br>
+	    <center>
+            <div class="card" style="color: white;">
+                <div class="rest">
+                    <img src="<%= url %>" style="background-color: #2c2c2c;border-radius: 10px;" height="512px">
+                    <h4>Upload Date: <span style="color: white"><%= uDate %></span></h4>
+					<h4>Raw Link: <a href="<%= url %>" style="color: white;text-decoration: none;" target="_blank"><%= url %></a></h4>
+                    <h4>File Name: <span style="color: white;"><%= name %></span></h4>
+                    <h4>File Size: <span style="color: white;"><%= size %></span></h4>
+                    <h4>File Type: <span style="color: white;"><%= type %></span></h4>
+                </div>
+            </div>
+        </center>
+    </body>
+</html>
