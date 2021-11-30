@@ -1,6 +1,6 @@
 {
   "name": "image-uploader",
-  "version": "1.5.0",
+  "version": "1.8.0",
   "description": "image uploader with unique file names",
   "main": "index.js",
   "scripts": {

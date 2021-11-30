@@ -130,7 +130,9 @@ app.get("/e/:folder/:file", async(req, res) => {
         uDate: file_info.uploaded,
         path: file_info.generatedFolder+"/"+file_info.name,
         url: imgurl,
-        type: file_info.type
+        type: file_info.type,
+        element: "<img src='"+imgurl+"' style='background-color: #2c2c2c;border-radius: 10px;' height='512px'>",
+        what: "image"
       });
     } else if (file_info.type === "image/jpg") {
       res.render(__dirname+"/embed.ejs", {
@@ -139,7 +141,9 @@ app.get("/e/:folder/:file", async(req, res) => {
         uDate: file_info.uploaded,
         path: file_info.generatedFolder+"/"+file_info.name,
         url: imgurl,
-        type: file_info.type
+        type: file_info.type,
+        element: "<img src='"+imgurl+"' style='background-color: #2c2c2c;border-radius: 10px;' height='512px'>",
+        what: "image"
       });
      } else if (file_info.type === "image/png") {
       res.render(__dirname+"/embed.ejs", {
@@ -148,7 +152,41 @@ app.get("/e/:folder/:file", async(req, res) => {
         uDate: file_info.uploaded,
         path: file_info.generatedFolder+"/"+file_info.name,
         url: imgurl,
-        type: file_info.type
+        type: file_info.type,
+        element: "<img src='"+imgurl+"' style='background-color: #2c2c2c;border-radius: 10px;' height='512px'>",
+        what: "image"
+      });
+     } else if (file_info.type === "video/mp4") {
+      res.render(__dirname+"/embed.ejs", {
+        name: file_info.name,
+        size: file_info.sizeKB,
+        uDate: file_info.uploaded,
+        path: file_info.generatedFolder+"/"+file_info.name,
+        url: imgurl,
+        type: file_info.type,
+        element: "<video controls style='background-color: #2c2c2c;border-radius: 10px;' height='512px'><source src='"+imgurl+"' type='video/mp4'>Your browser does not support HTML5 video.</video>",
+        what: "video"
+      });
+     } else if (file_info.type === "video/avi") {
+      res.render(__dirname+"/embed.ejs", {
+        name: file_info.name,
+        size: file_info.sizeKB,
+        uDate: file_info.uploaded,
+        path: file_info.generatedFolder+"/"+file_info.name,
+        url: imgurl,
+        type: file_info.type,
+        element: "<video controls style='background-color: #2c2c2c;border-radius: 10px;' height='512px'><source src='"+imgurl+"' type='video/avi'>Your browser does not support HTML5 video.</video>",
+        what: "video"
+      });
+     } else if (file_info.type === "audio/mpeg") {
+      res.render(__dirname+"/embed.ejs", {
+        name: file_info.name,
+        size: file_info.sizeKB,
+        uDate: file_info.uploaded,
+        path: file_info.generatedFolder+"/"+file_info.name,
+        url: imgurl,
+        type: file_info.type,
+        element: "<audio controls style='background-color: #2c2c2c;border-radius: 10px;' height='512px'><source src='"+imgurl+"' type='audio/mpeg'>Your browser does not support HTML5 video.</audio>"
       });
      } else {
       res.redirect(host+folder+"/"+name).end();

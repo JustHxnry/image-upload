@@ -13,20 +13,28 @@
     <meta property="al:web:url" content="<%= url %>" />
     <meta property="og:type" content="website" />
     <meta property="og:description" content="Uploaded at <%= uDate %>" />
-    <meta property="og:image" content="<%= url %>" />
+    <meta property="og:<%= what %>" content="<%= url %>" />
     <meta name="theme-color" content="#000">
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="<%= name %> [ <%= size %> ]" />
     <meta name="twitter:description" content="Uploaded at <%= uDate %>" />
-    <meta name="twitter:image:src" content="<%= url %>" />
-    <meta name="twitter:image:height" content="630" />
-    <meta name="twitter:image:width" content="1200" />
+    <meta name="twitter:<%= what %>:src" content="<%= url %>" />
+    <meta name="twitter:<%= what %>:height" content="630" />
+    <meta name="twitter:<%= what %>:width" content="1200" />
 </head>
     <body><br><br><br><br><br>
 	    <center>
             <div class="card" style="color: white;">
                 <div class="rest">
+                    <% if (type === "video/mp4") { %>
+                    <video controls style='background-color: #2c2c2c;border-radius: 10px;' height='384px'><source src='<%= url %>' type='video/mp4'>Your browser does not support HTML5 video.</video>
+                    <% } else if (type === "video/avi") { %>
+                    <video controls style='background-color: #2c2c2c;border-radius: 10px;' height='384px'><source src='<%= url %>' type='video/avi'>Your browser does not support HTML5 video.</video>
+                    <% } else if (type === "audio/mpeg") { %>
+                    <audio controls style='background-color: #2c2c2c;border-radius: 10px;' height='512px'><source src='<%= url %>' type='audio/mpeg'>Your browser does not support HTML5 audio.</audio>
+                    <% } else { %>
                     <img src="<%= url %>" style="background-color: #2c2c2c;border-radius: 10px;" height="512px">
+                    <% } %>
                     <h4>Upload Date: <span style="color: white"><%= uDate %></span></h4>
 					<h4>Raw Link: <a href="<%= url %>" style="color: white;text-decoration: none;" target="_blank"><%= url %></a></h4>
                     <h4>File Name: <span style="color: white;"><%= name %></span></h4>
